@@ -16,12 +16,16 @@ class CodeFinder {
 
 
 
-	static public function find($text, $path, $ext,$req=FALSE){
+	static public function find($text, $path, $ext="",$req=TRUE){
 	
 		self::clearExt($ext);
 		
+		
 		self::clearPath($path);
+		
 		self::findInFolder();
+		
+
 		
 		self::findWord($text);
 
@@ -40,7 +44,9 @@ class CodeFinder {
 		$ite=new RecursiveDirectoryIterator($path);
 		foreach (new RecursiveIteratorIterator($ite) as $filename=>$cur) {
 		    if ($cur->getSize() > self::MINSIZE &&  $cur->getSize() < self::MAXSIZE){
-		    	if (self::$_ext != "*"){
+		    	
+		    	if (self::$_ext[0] != '*'){
+		    		
 		    		$ext = explode('.', $filename);
 		    		$ext = $ext[sizeof($ext)-1];
 		    		if (in_array($ext, self::$_ext))
@@ -48,6 +54,7 @@ class CodeFinder {
 		    		
 		    	}
 		    	else{
+		    		
 		    		self::$_fileList[]= $filename;
 		    	}
 
